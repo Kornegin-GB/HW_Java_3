@@ -4,36 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task_3 {
-   static List<Character> array;
    static List<Integer> index_num;
+   static char[] array;
 
    public static void main(String[] args) {
       String equationNew = "2? + ?5 = 69".replace(" ", "");
-      array = new ArrayList<>();
       index_num = new ArrayList<>();
+      array = equationNew.toCharArray();
 
-      for (int i = 0; i < equationNew.length(); i++) {
-         array.add(equationNew.charAt(i));
-         if (array.get(i) == '?') {
+      for (int i = 0; i < array.length; i++) {
+         if (array[i] == '?') {
             index_num.add(i);
          }
       }
-
-      creatingCombination(0, new ArrayList<>(), 9, index_num.size());
+      creatingCombination(new ArrayList<>(), 9, index_num.size());
    }
 
-   private static void creatingCombination(int prev, List<Integer> comb, int n, int k) {
+   private static void creatingCombination(List<Integer> comb, int n, int k) {
       if (comb.size() == k) {
-         // System.out.println(comb.toString());
          equationResult(comb);
          return;
       }
-      if (comb.size() == k - 1) {
-         prev = 0;
-      }
-      for (int i = prev; i <= n; i++) {
+      for (int i = 0; i <= n; i++) {
          comb.add(i);
-         creatingCombination(i, comb, n, k);
+         creatingCombination(comb, n, k);
          comb.remove(comb.size() - 1);
       }
    }
@@ -42,13 +36,13 @@ public class Task_3 {
       String result = "";
       for (int i = 0; i < comb.size(); i++) {
          char x = Integer.toString(comb.get(i)).charAt(0);
-         array.set(index_num.get(i), x);
+         array[index_num.get(i)] = x;
       }
-      for (int i = 0; i < array.size(); i++) {
-         if (array.get(i) == '+') {
+      for (int i = 0; i < array.length; i++) {
+         if (array[i] == '+') {
             result += '=';
          } else {
-            result += array.get(i);
+            result += array[i];
          }
       }
       String[] arr = result.split("=");
@@ -58,7 +52,8 @@ public class Task_3 {
          sum += Integer.parseInt(arr[i]);
       }
       if (sum == res) {
-         System.out.printf("Вариант уравнения %s + %s = %s верно\n", arr[0], arr[1], res);
+         System.out.printf("Вариант уравнения %s + %s = %s верно\n", arr[0], arr[1],
+               res);
       }
 
    }
